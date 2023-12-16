@@ -12,4 +12,5 @@ from utils.error_handling import *
 from utils.input_handler import Menu
 
 if __name__=="__main__":
-    Menu.menu()
+    config_menu = Menu()
+    config_menu.menu()
