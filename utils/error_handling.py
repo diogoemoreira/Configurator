@@ -64,13 +64,24 @@ class UpdateInvalidConfiguration(Exception):
     def __str__(self):
         return self.message
 
+class SaveInvalidFile(Exception):
+    '''
+    Exception raised when trying to save an invalid file
+    '''
+
+    def __init__(self):
+        self.message = "The json file you are trying to save has an invalid format."
+
+    def __str__(self):
+        return self.message
+    
 class LoadInvalidFile(Exception):
     '''
     Exception raised when trying to load an invalid file
     '''
 
     def __init__(self):
-        self.message = "The file you are trying to load does not exist or has an invalid format."
+        self.message = "The json file you are trying to load does not exist or has an invalid format."
 
     def __str__(self):
         return self.message

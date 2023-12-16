@@ -1,0 +1,7 @@
+{
+    "api_config": {
+        "api_docs": "/docs",
+        "api_files": "/files",
+        "api_profile": "/profile"
+    }
+}
