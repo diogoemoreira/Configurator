@@ -20,7 +20,7 @@ class Menu():
             #key: "value", key: "value"
             #being able to repeat key: "value" as many times as needed
             Menu.__single_pattern = re.compile(r'\s*([^:]+)\s*:\s*"([^"]*)"\s*$')
-            Menu.__multiple_pattern = re.compile(r'\s*([^:]+)\s*:\s*"([^"]*)"\s*(?:,\s*([^:]+)\s*:\s*"([^"]*)")?\s*$')
+            Menu.__multiple_pattern = re.compile(r'\s*([^:]+)\s*:\s*"([^"]*)"\s*(?:\s*([^:]+)\s*:\s*"([^"]*)")?')
             Menu.__instance=self
     
     @staticmethod
@@ -39,7 +39,7 @@ class Menu():
             option=None
             Menu.__menu_options()
 
-            option = input("Choose an option: ")
+            option = Menu.__input_choice()
             while(option==None):
                 print("-- Please choose a valid option --\n\n")
                 Menu.__menu_options()
@@ -53,7 +53,7 @@ class Menu():
             elif option == "display":
                 Menu.__display_config()
             elif option == "update":
-                print("update")
+                Menu.__update_config()
             elif option == "save":
                 print("save")
             elif option == "load":
@@ -64,6 +64,8 @@ class Menu():
                     exit()
             else:
                 print("\nPlease choose a valid option.\n")
+
+
 
     def __menu_options():
         print()
@@ -76,51 +78,70 @@ class Menu():
         print("{:<10} - {}".format("[exit]", "Exit.\n"))
 
     def __input_choice():
-        pass
+        return input("Choose an option: ")
 
+
+    ## menu functionalities
     def __reset_config():
+        #resets the current configurations
         Menu.configurations = dict()
 
     def __add_config():
+        #add a new configuration to the configurations dictionary
         print("Add a new configuration.\n")
-        new_config_name = input("What would you like its name to be: ")
+        new_config_name = input("What would you like to name the new configuration as: ")
         
+        #check if the given name already exists in the current configurations
         if new_config_name in Menu.configurations:
             print("\n"+str(ConfigurationAlreadyExists()))
             return
         
-        new_configs_params = input("\nPlease enter the configuration's parameters using the specicified format. \
-                            \n key: \"value\"\
-                            \nFor multiple values separate them using a semi-colon \";\"\
-                            Example:\n param1: \"value for param1\"; param2: \"valueforparam2!\"\nConfiguration parameters:\n")
+        new_configs_params = input("\nPlease enter the configuration's parameters using the specified format. You can enter multiple values.  \
+                            \n key: \"value\"\n\nConfiguration parameters:\n")
 
-        matches = Menu.__single_pattern.match(new_configs_params)
-    
-        if not matches:
-            # Validate input format
-            matches = re.fullmatch(Menu.__multiple_pattern, new_configs_params)
-            if not matches:
-                print("\n"+str(InvalidConfigurationParameters()))
-                return
-
-        match_groups = matches.groups()
-
-        match_dict= dict()
-        for i in range(len(match_groups)-1):
-            match_dict[match_groups[i]] = match_groups[i+1]
-            i+=1
-        
-        #Create a dictionary to hold the new parameters for the configuration
-        Menu.configurations[new_config_name] = dict()
-        #Add the parameters to the new dictionary
-        for key, value in match_dict.items():
-            Menu.configurations[new_config_name][key] = value
+        Menu.__new_config_value(new_config_name, new_configs_params)
 
     def __display_config():
+        #display the current configurations
         print("\nCurrent Configurations:\n")
 
         for key, value in Menu.configurations.items():
             print(f"{key}: {value}")
+
+    def __update_config():
+        #update the parameters of an already existing configuration
+        config_name = input("What's the name of the configuration you wish to update?")
+
+        if config_name not in Menu.configurations:
+            print("\n"+ str(UpdateInvalidConfiguration()))
+            return
+        
+        new_configs_params = input("\nPlease enter the new configuration's parameters using the specified format. You can enter multiple values. \
+                            \n key: \"value\"\n\nConfiguration parameters:\n")
+
+        Menu.__new_config_value(config_name, new_configs_params)
+
+    def __new_config_value(config_name, new_configs_params):
+        #Validate input format for single and multiple parameters
+        matches = Menu.__single_pattern.match(new_configs_params)
+        #match_groups = matches.groups()
+        if not matches:
+            match_groups = Menu.__multiple_pattern.findall(new_configs_params)
+            if not match_groups:
+                print("\n"+str(InvalidConfigurationParameters()))
+                return
+            match_groups = [item for sublist in match_groups for item in sublist if item!='']
+
+        match_dict= dict()
+        for i in range(0,len(match_groups)-1,2):
+            print("i = "+str(i)+" key: "+str(match_groups[i])+" val: "+ str(match_groups[i+1]) )
+            match_dict[match_groups[i]] = match_groups[i+1]
+        
+        #Create a dictionary to hold the new parameters for the configuration
+        Menu.configurations[config_name] = dict()
+        #Add the parameters to the new dictionary
+        for key, value in match_dict.items():
+            Menu.configurations[config_name][key] = value
 
     def __confirm_choice(choice):
         #choice - the option which should be confirmed
