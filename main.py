@@ -8,3 +8,9 @@
 #   4. Save configurations to a file  
 #   5. Load configurations from a file  
 #   6. Exit  
+from utils.error_handling import *
+from utils.input_handler import Menu
+
+if __name__=="__main__":
+    config_menu = Menu()
+    config_menu.menu()
