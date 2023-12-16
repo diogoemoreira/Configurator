@@ -20,6 +20,17 @@ class SingletonNotInstantiated(Exception):
     def __str__(self):
         return self.message
 
+class OptionDoesNotExist(Exception):
+    '''
+    Exception raised when trying to access a nonexistent option
+    '''
+
+    def __init__(self):
+        self.message = "The option you are trying to access does not exist."
+
+    def __str__(self):
+        return self.message
+
 class ConfigurationAlreadyExists(Exception):
     '''
     Exception raised when trying to create a new configuration using an existing configuration's name
@@ -37,7 +48,7 @@ class InvalidConfigurationParameters(Exception):
     '''
 
     def __init__(self):
-        self.message = "The format you are trying to use is invalid. Please use the following format:\nFor a single parameter:\nkey:value\n\nFor multiple parameters:\nkey:value,key:value"
+        self.message = "The format you are trying to use is invalid. Please use the following format:\nFor a single parameter:\nkey:\"value\"\n\nFor multiple parameters:\nkey:\"value\";key:\"value\""
 
     def __str__(self):
         return self.message
