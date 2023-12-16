@@ -63,7 +63,7 @@ class Menu():
                     print("\nExiting configurator...")
                     exit()
             else:
-                print("\nPlease choose a valid option.\n")
+                print("\n"+str(OptionDoesNotExist()))
 
 
 
