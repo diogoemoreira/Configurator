@@ -9,6 +9,17 @@ class SingletonAlreadyExists(Exception):
     def __str__(self):
         return self.message
     
+class SingletonNotInstantiated(Exception):
+    '''
+    Exception raised when trying to access an instance of a singleton which has yet to be created
+    '''
+
+    def __init__(self):
+        self.message = "The instance you are trying to access was never instantiated."
+    
+    def __str__(self):
+        return self.message
+
 class ConfigurationAlreadyExists(Exception):
     '''
     Exception raised when trying to create a new configuration using an existing configuration's name
