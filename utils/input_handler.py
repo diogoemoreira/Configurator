@@ -1,5 +1,6 @@
 import re
 from utils.error_handling import *
+from utils.file_handler import *
 
 class Menu():
     '''
@@ -55,9 +56,9 @@ class Menu():
             elif option == "update":
                 Menu.__update_config()
             elif option == "save":
-                print("save")
+                Menu.__save_json_file()
             elif option == "load":
-                print("load")
+                Menu.__load_json_file()
             elif option == "exit":
                 if Menu.__confirm_choice("exit"):
                     print("\nExiting configurator...")
@@ -103,7 +104,7 @@ class Menu():
 
     def __display_config():
         #display the current configurations
-        print("\nCurrent Configurations:\n")
+        print("\nCurrent Configurations:")
 
         for key, value in Menu.configurations.items():
             print(f"{key}: {value}")
@@ -121,6 +122,7 @@ class Menu():
 
         Menu.__new_config_value(config_name, new_configs_params)
 
+
     def __new_config_value(config_name, new_configs_params):
         #Validate input format for single and multiple parameters
         matches = Menu.__single_pattern.match(new_configs_params)
@@ -134,7 +136,6 @@ class Menu():
 
         match_dict= dict()
         for i in range(0,len(match_groups)-1,2):
-            print("i = "+str(i)+" key: "+str(match_groups[i])+" val: "+ str(match_groups[i+1]) )
             match_dict[match_groups[i]] = match_groups[i+1]
         
         #Create a dictionary to hold the new parameters for the configuration
@@ -142,6 +143,18 @@ class Menu():
         #Add the parameters to the new dictionary
         for key, value in match_dict.items():
             Menu.configurations[config_name][key] = value
+
+
+    def __save_json_file():
+        file_name = input("Which name do you wish to use for the file? (it should end with .json)\n")
+        FileHandler.save_to_file(file=file_name, configurations=Menu.configurations)
+
+    def __load_json_file():
+        file_name = input("What is the name of the file you wish to load? (it should end with .json)\n")
+        new_configs = FileHandler.read_file(file_name)
+
+        if new_configs!=None:
+            Menu.configurations=new_configs
 
     def __confirm_choice(choice):
         #choice - the option which should be confirmed
