@@ -1,5 +1,6 @@
 # Configurator
-    A Python script that acts as a quick configurator for a system component. The script allows users to generate configurations, navigate menus efficiently, and persist configurations in JSON files.
+    A Python script that acts as a quick configurator for a system component. The script allows users to generate configurations,  
+    navigate menus efficiently, and persist configurations in JSON files.
 
 Developed using Python 3.11.0
 
@@ -23,7 +24,8 @@ To run the Configurator script you only require [Python](https://www.python.org/
     Resets the current configurations.
 
 #### 1. Add new configuration
-    Asks the user to add a new configuration. First an input of the configuration's name and then an input of the configuration's parameters, using the specified format "key: value"
+    Asks the user to add a new configuration. First an input of the configuration's name and then an input of the  
+    configuration's parameters, using the specified format "key: value"
     Example:  
     param1: "value" param2: "value"
 
@@ -31,7 +33,8 @@ To run the Configurator script you only require [Python](https://www.python.org/
     Displays to the user the currently available configurations.
 
 #### 3. Update configurations
-    Asks the user for a configuration's name and allows them to update that specific configuration. The update forces the user to input configuration parameters separated by commas. 
+    Asks the user for a configuration's name and allows them to update that specific configuration. The update forces  
+    the user to input configuration parameters separated by commas. 
     Example:  
     param1: "value" param2: "value" param3: value"
     
@@ -39,7 +42,8 @@ To run the Configurator script you only require [Python](https://www.python.org/
     Asks the user for a json file name to save the current configurations in a json format.
 
 #### 5. Load configurations from a file 
-    Asks the user for a json file name which contains saved configurations in a json format in order to load them as the current configurations.
+    Asks the user for a json file name which contains saved configurations in a json format in order to load them as  
+    the current configurations.
 
 #### 6. Exit
     Exits the application.
