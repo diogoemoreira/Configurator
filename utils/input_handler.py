@@ -97,7 +97,7 @@ class Menu():
             print("\n"+str(ConfigurationAlreadyExists()))
             return
         
-        new_configs_params = input("\nPlease enter the configuration's parameters using the specified format. You can enter multiple values.  \
+        new_configs_params = input("\nPlease enter the configuration's parameters using the specified format. You can enter multiple values.\
                             \n key: \"value\"\n\nConfiguration parameters:\n")
 
         Menu.__new_config_value(new_config_name, new_configs_params)
@@ -126,13 +126,14 @@ class Menu():
     def __new_config_value(config_name, new_configs_params):
         #Validate input format for single and multiple parameters
         matches = Menu.__single_pattern.match(new_configs_params)
-        #match_groups = matches.groups()
         if not matches:
             match_groups = Menu.__multiple_pattern.findall(new_configs_params)
             if not match_groups:
                 print("\n"+str(InvalidConfigurationParameters()))
                 return
             match_groups = [item for sublist in match_groups for item in sublist if item!='']
+        else:
+            match_groups = matches.groups()
 
         match_dict= dict()
         for i in range(0,len(match_groups)-1,2):
