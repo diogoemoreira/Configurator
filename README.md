@@ -6,6 +6,8 @@ Developed using Python 3.11.0
 # How to run
 To run the Configurator script you only require [Python](https://www.python.org/) and to start the [main.py](main.py) script.
 
+    python3 main.py
+
 
 # Functionalities 
 ### Menu
